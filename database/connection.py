@@ -9,7 +9,7 @@ class Connect:
     @staticmethod
     def get_db_connection():
         try:
-            conn = psycopg2.connect(**DATABASE_CONFIG, cursor_factory=RealDictCursor)
+            conn = psycopg2.connect(**DATABASE_CONFIG)
             return conn
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Произошла ошибка при подключении к базе данных: {str(e)}")
