@@ -59,20 +59,23 @@ INSERT INTO Clients (passport_number, passport_series, First_name, Last_name, Mi
 (567890, 7804, 'Петр', 'Рябов', 'Владимирович');
 
 
-INSERT INTO coupones (departure, destination, fare, client, ticket, num) VALUES
-('Москва', 'Санкт-Петербург', 4500.00, 1, 1, 1);
+INSERT INTO coupones (departure, destination, fare, client, ticket, num, flight_time) VALUES
+('Москва', 'Санкт-Петербург', 4500.00, 1, 1, 1, '2024-12-01 08:35:00');
 
-INSERT INTO coupones (departure, destination, fare, client, ticket, num) VALUES
-('Москва', 'Казань', 5200.00, 2, 2, 1),
-('Казань', 'Екатеринбург', 3100.00, 2, 2, 2);
+INSERT INTO coupones (departure, destination, fare, client, ticket, num, flight_time) VALUES
+('Москва', 'Казань', 5200.00, 2, 2, 1, '2024-12-05 09:20:00'),
+('Казань', 'Екатеринбург', 3100.00, 2, 2, 2, '2024-12-05 18:35:00');
 
-INSERT INTO coupones (departure, destination, fare, client, ticket, num) VALUES
-('Москва', 'Новосибирск', 7800.00, 3, 3, 1);
+INSERT INTO coupones (departure, destination, fare, client, ticket, num, flight_time) VALUES
+('Москва', 'Новосибирск', 7800.00, 3, 3, 1, '2024-12-010 10:40:00');
 
-INSERT INTO coupones (departure, destination, fare, client, ticket, num) VALUES
-('Сочи', 'Краснодар', 1200.00, 4, 4, 1);
+INSERT INTO coupones (departure, destination, fare, client, ticket, num, flight_time) VALUES
+('Сочи', 'Краснодар', 1200.00, 4, 4, 1, '2025-01-03 02:35:00');
 
-INSERT INTO coupones (departure, destination, fare, client, ticket, num) VALUES
-('Москва', 'Самара', 5000.00, 5, 5, 1),
-('Самара', 'Волгоград', 2500.00, 5, 5, 2),
-('Волгоград', 'Ростов-на-Дону', 1900.00, 5, 5, 3);
+INSERT INTO coupones (departure, destination, fare, client, ticket, num, flight_time) VALUES
+('Москва', 'Самара', 5000.00, 5, 5, 1, '2025-02-01 01:15:00'),
+('Самара', 'Волгоград', 2500.00, 5, 5, 2, '2025-02-01 08:35:00'),
+('Волгоград', 'Ростов-на-Дону', 1900.00, 5, 5, 3, '2025-02-01 20:20:00');
+
+alter table coupones add column flight_time TIMESTAMP not null default now();
+delete from coupones
