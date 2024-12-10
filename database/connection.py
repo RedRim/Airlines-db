@@ -15,7 +15,7 @@ class Connect:
             raise HTTPException(status_code=500, detail=f"Произошла ошибка при подключении к базе данных: {str(e)}")
         
     @classmethod
-    def execute(cls, query: str):
+    def fetchall(cls, query: str):
         conn = cls.get_db_connection()
         cursor = conn.cursor()
         try:
@@ -23,6 +23,34 @@ class Connect:
             rows = cursor.fetchall()
             conn.commit()
             return rows
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Произошла ошибка при выполнении запроса: {str(e)}")
+        finally:
+            cursor.close()
+            conn.close()
+    
+    @classmethod
+    def fetchone(cls, query: str):
+        conn = cls.get_db_connection()
+        cursor = conn.cursor()
+        try:
+            cursor.execute(query)
+            rows = cursor.fetchone()
+            conn.commit()
+            return rows
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Произошла ошибка при выполнении запроса: {str(e)}")
+        finally:
+            cursor.close()
+            conn.close()
+    
+    @classmethod
+    def execute(cls, query: str):
+        conn = cls.get_db_connection()
+        cursor = conn.cursor()
+        try:
+            cursor.execute(query)
+            conn.commit()
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Произошла ошибка при выполнении запроса: {str(e)}")
         finally:

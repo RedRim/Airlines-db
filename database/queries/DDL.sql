@@ -38,7 +38,9 @@ CREATE TABLE IF NOT EXISTS clients (
     passport_series BIGINT NOT NULL CHECK (passport_series > 0),
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
-    middle_name VARCHAR(50) NOT NULL
+    middle_name VARCHAR(50) NOT NULL,
+    password VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS tickets (

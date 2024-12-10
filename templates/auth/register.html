@@ -7,15 +7,31 @@
         <form action="/register" method="POST" class="space-y-4">
             <div>
                 <label for="name" class="block text-gray-700">Имя:</label>
-                <input type="text" id="name" name="name" required class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-500" />
+                <input type="text" id="first-name" name="first_name" required class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-500" />
+            </div>
+            <div>
+                <label for="name" class="block text-gray-700">Фамилия:</label>
+                <input type="text" id="last-name" name="last_name" required class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-500" />
+            </div>
+            <div>
+                <label for="name" class="block text-gray-700">Отчество:</label>
+                <input type="text" id="middle-name" name="middle_name" required class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-500" />
             </div>
             <div>
                 <label for="email" class="block text-gray-700">Email:</label>
                 <input type="email" id="email" name="email" required class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-500" />
             </div>
             <div>
+                <label for="name" class="block text-gray-700">Серия паспорта:</label>
+                <input type="text" id="passport-series" name="passport_series" required class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-500" />
+            </div>
+            <div>
+                <label for="name" class="block text-gray-700">Номер паспорта:</label>
+                <input type="text" id="passport-num" name="passport_num" required class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-500" />
+            </div>
+            <div>
                 <label for="password" class="block text-gray-700">Пароль:</label>
-                <input type="password" id="password" name="password" required class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-500" />
+                <input type="password" id="password" name="password" placeholder="пожалуйста, только не 123" required class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-500" />
             </div>
             <div>
                 <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300">Зарегистрироваться</button>

@@ -11,7 +11,7 @@ router = APIRouter()
 
 @router.get("/airlines", response_model=List[dict])
 def get_airlines():
-    res = Connect.execute(Q.AirlinesQueries.get_all())
+    res = Connect.fetchall(Q.AirlinesQueries.get_all())
     return res
 
 class AirlineParams(BaseModel):
@@ -22,7 +22,7 @@ class AirlineParams(BaseModel):
 
 @router.post("/airlines/")
 def add_airline(airline: AirlineParams):
-    res = Connect.execute(Q.AirlinesQueries.add_airline(
+    res = Connect.fetchall(Q.AirlinesQueries.add_airline(
         airline.name,
         airline.city,
         airline.street,
@@ -33,7 +33,7 @@ def add_airline(airline: AirlineParams):
 
 @router.put("/airlines/{id}")
 def update_airline(airline: AirlineParams):
-    res = Connect.execute(Q.AirlinesQueries.update_airline(
+    res = Connect.fetchall(Q.AirlinesQueries.update_airline(
         airline.name,
         airline.city,
         airline.street,
@@ -43,9 +43,9 @@ def update_airline(airline: AirlineParams):
 
 @router.delete("/airlines/{id}")
 def delete_airline(id: int):
-    res = Connect.execute(Q.AirlinesQueries.delete_airline(id))
+    res = Connect.fetchall(Q.AirlinesQueries.delete_airline(id))
     return res
 
 def get_airline_by_id(airline_id):
-    airline = Connect.execute(f"SELECT * FROM airlines WHERE id = {airline_id}")
+    airline = Connect.fetchall(f"SELECT * FROM airlines WHERE id = {airline_id}")
     return airline

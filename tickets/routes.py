@@ -3,8 +3,7 @@ from fastapi import Form, Request
 from fastapi.responses import HTMLResponse
 
 from database.connection import Connect
-import database.crud as Q
-from database.pages import IndexTicketsQueries 
+from .queries import IndexTicketsQueries
 from database.query_config import IndexTicketsConfig
 
 from settings import templates
@@ -41,7 +40,7 @@ def index_post(request: Request,
             'destination': destination
         })
 
-    rows = Connect.execute(IndexTicketsQueries.get_all(departure_date_from=departure_date_from, 
+    rows = Connect.fetchall(IndexTicketsQueries.get_all(departure_date_from=departure_date_from, 
                                                        departure_date_to=departure_date_to,
                                                        departure=departure,
                                                        destination=destination))
