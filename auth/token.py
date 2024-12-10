@@ -25,7 +25,6 @@ def create_token(email: str, user_id: int, role: int):
     }
 
     token = security.create_access_token(uid=email, data=payload)
-    payload = jwt.decode(token, config.JWT_SECRET_KEY, algorithms=['HS256'])
 
     return token
 
@@ -39,3 +38,7 @@ def role_required(allowed_roles: list[int]):
             raise HTTPException(status_code=403, detail="Access forbidden")
         return user_data
     return dependency
+
+def get_token_data(token: str):
+    payload = jwt.decode(token, config.JWT_SECRET_KEY, algorithms=['HS256'])
+    return payload

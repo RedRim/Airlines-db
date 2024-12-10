@@ -5,7 +5,7 @@ from jose.exceptions import JWTError
 
 from .schemas import ClientRegisterSchema, ClientLoginSchema
 from .queries import Auth, AllEmailsQueries
-from .tocken import get_current_user_data, create_token, role_required
+from .token import get_current_user_data, create_token, role_required
 
 from settings import security, config, templates
 from database.connection import Connect
@@ -78,7 +78,6 @@ def login(request: Request,
         raise HTTPException(status_code=401, detail="Неверный пароль")
 
     token = create_token(email=q_email, user_id=q_id, role=q_role)
-    print(token)
 
     redirect_response = RedirectResponse(url='/home', status_code=303)
 
