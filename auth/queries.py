@@ -26,14 +26,20 @@ class Auth:
             email) 
         VALUES
         ('{pasport_num}', '{passport_series}', '{first_name}', '{last_name}', '{middle_name}', '{password}','{email}')
+        RETURNING id, role;
         """
     
     @classmethod
-    def login_client(cls, email):
+    def login(cls, email):
         return f"""
-        select email, password
-        from clients
-        where 
-        email='{email}'
+        select email, password, role, id
+          from (
+                select email, password, role, id from admin
+                union all	
+                select email, password, role, id from cashiers
+                union all 
+                select email, password, role, id from clients
+            ) as all_emails
+            where email = '{email}'
         """
 
