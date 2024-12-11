@@ -1,0 +1,34 @@
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+<div class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-6xl">
+        <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">Управление Пользователями</h1>
+        
+        <div class="overflow-x-auto">
+            <table class="min-w-full border-collapse border border-gray-300">
+                <thead>
+                    <tr>
+                        {% for column in columns %}
+                            <th class="border border-gray-300 px-4 py-2">{{ column[1] }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for client in clients %}
+                        <tr class="hover:bg-gray-50">
+                            {% for column in range(len_cols) %}
+                                {% if column == 0 %}
+                                <td class="border border-gray-300 px-4 py-2">
+                                    <a href="{{ client[column] }}" class="text-blue-500 hover:text-blue-700 transition duration-300">{{ client[column] }}</a>
+                                </td>
+                                {% else %}
+                                    <td class="border border-gray-300 px-4 py-2">{{ client[column] }}</td>
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

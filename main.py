@@ -7,8 +7,6 @@ from settings import Settings, security, config, templates
 from tickets.routes import router as tickets_router
 from admin.routers import router as admin_router
 from auth.routes import router as auth_router
-from auth.queries import Auth
-from database.connection import Connect
 
 
 app = FastAPI(title=Settings.app_name, debug=Settings.debug)

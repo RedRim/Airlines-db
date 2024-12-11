@@ -89,22 +89,22 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Функции для таблицы "Clients"
-CREATE OR REPLACE FUNCTION add_client(p_passport_number bigint, p_passport_series bigint, p_first_name varchar, p_last_name varchar, p_middle_name varchar) 
+CREATE OR REPLACE FUNCTION add_client(p_email varchar, p_passport_number bigint, p_passport_series bigint, p_first_name varchar, p_last_name varchar, p_middle_name varchar) 
 RETURNS bigint AS $$
 DECLARE
     new_id bigint;
 BEGIN
-    INSERT INTO clients (passport_number, passport_series, first_name, last_name, middle_name) 
-    VALUES (p_passport_number, p_passport_series, p_first_name, p_last_name, p_middle_name) RETURNING id INTO new_id;
+    INSERT INTO clients (p_email, passport_number, passport_series, first_name, last_name, middle_name) 
+    VALUES (p_email, p_passport_number, p_passport_series, p_first_name, p_last_name, p_middle_name) RETURNING id INTO new_id;
     RETURN new_id;
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION update_client(p_id bigint, p_passport_number bigint, p_passport_series bigint, p_first_name varchar, p_last_name varchar, p_middle_name varchar)
+CREATE OR REPLACE FUNCTION update_client(p_id integer, p_email varchar, p_passport_number integer, p_passport_series integer, p_first_name varchar, p_last_name varchar, p_middle_name varchar, p_role integer)
 RETURNS bigint AS $$
 BEGIN
     UPDATE clients 
-    SET passport_number = p_passport_number, passport_series = p_passport_series, first_name = p_first_name, last_name = p_last_name, middle_name = p_middle_name
+    SET email = p_email, passport_number = p_passport_number, passport_series = p_passport_series, first_name = p_first_name, last_name = p_last_name, middle_name = p_middle_name, role = p_role
     WHERE id = p_id;
     RETURN p_id;
 END;
