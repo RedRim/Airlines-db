@@ -8,10 +8,10 @@ from dataclasses import asdict
 from database.connection import Connect
 from settings import templates
 
-from .schemas import ClientEditSchema, ClientAddSchema
-from . import queires as Q
-from .responses_data import HTMLField, ClientFields
-from .query_config import ClientColumnsConfig
+from admin.schemas import ClientEditSchema, ClientAddSchema
+from admin import queires as Q
+from admin.responses_data import HTMLField, ClientFields
+from admin.query_config import ClientColumnsConfig
 
 
 router = APIRouter()

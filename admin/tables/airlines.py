@@ -8,10 +8,10 @@ from dataclasses import asdict
 from database.connection import Connect
 from settings import templates
 
-from .schemas import AirlineEditSchema, AirlineAddSchema
-from . import queires as Q
-from .responses_data import HTMLField, AirlinesFields
-from .query_config import AirlineColumnsConfig
+from admin.schemas import AirlineEditSchema, AirlineAddSchema
+from admin import queires as Q
+from admin.responses_data import HTMLField, AirlinesFields
+from admin.query_config import AirlineColumnsConfig
 
 
 router = APIRouter()

@@ -65,6 +65,6 @@ class TicketOfficesFields:
     house: HTMLField
 
 @dataclass
-class TicketsFields:
+class TicketFields:
     type: HTMLField
     airline: HTMLField

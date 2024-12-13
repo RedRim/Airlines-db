@@ -154,35 +154,38 @@ CREATE OR REPLACE FUNCTION add_coupone(
     p_departure VARCHAR, 
     p_destination VARCHAR, 
     p_fare NUMERIC, 
-    p_client BIGINT, 
-    p_ticket BIGINT
-) RETURNS BIGINT AS $$
+    p_ticket integer,
+	p_num integer,
+	p_flight_time timestamp
+) RETURNS integer AS $$
 DECLARE
-    new_id BIGINT;
+    new_id integer;
 BEGIN
-    INSERT INTO coupones (departure, destination, fare, client, ticket)
-    VALUES (p_departure, p_destination, p_fare, p_client, p_ticket)
+    INSERT INTO coupones (departure, destination, fare, ticket, num, flight_time)
+    VALUES (p_departure, p_destination, p_fare, p_ticket, num, flight_time)
     RETURNING id INTO new_id;
     RETURN new_id;
 END;
 $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION update_coupone(
-    p_id BIGINT,
+    p_id integer,
     p_departure VARCHAR, 
     p_destination VARCHAR, 
     p_fare NUMERIC, 
-    p_client BIGINT, 
-    p_ticket BIGINT
-) RETURNS BIGINT AS $$
+    p_ticket integer,
+	p_num integer,
+	p_flight_time timestamp
+) RETURNS integer AS $$
 BEGIN
     UPDATE coupones 
     SET 
         departure = p_departure, 
         destination = p_destination, 
         fare = p_fare, 
-        client = p_client, 
-        ticket = p_ticket
+        ticket = p_ticket,
+		num = p_num,
+		flight_time = p_flight_time
     WHERE id = p_id;
     RETURN p_id;
 END;

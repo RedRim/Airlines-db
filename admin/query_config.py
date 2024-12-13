@@ -16,3 +16,17 @@ class AirlineColumnsConfig(Enum):
     city = 2
     street = 3
     house = 4
+
+class TicketsColumnsConfig(Enum):
+    id = 0
+    type = 1
+    airline = 2
+
+class CouponesColumnsConfig(Enum):
+    id = 0
+    departure = 1
+    destination = 2
+    fare = 3
+    ticket = 4
+    num = 5
+    flight_time = 6 

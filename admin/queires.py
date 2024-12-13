@@ -2,6 +2,8 @@
 Запросы к бд
 """
 
+from datetime import datetime
+
 class AirlinesQueries:
     @classmethod
     def get_all(cls):
@@ -144,6 +146,12 @@ class ClientsQueries:
 
 class TicketsQueries:
     @classmethod
+    def get_ticket(cls, id: int):
+        return f"""
+        select * from tickets where id={id}
+        """
+    
+    @classmethod
     def get_all(cls):
         return f"""
         SELECT * FROM Tickets
@@ -169,21 +177,27 @@ class TicketsQueries:
 
 class CouponesQueries:
     @classmethod
+    def get_coupone(cls, id: int):
+        return f"""
+        select * from coupones where id={id}
+        """
+
+    @classmethod
     def get_all(cls):
         return f"""
         SELECT * FROM Coupones
         """ 
 
     @classmethod
-    def add_coupone(cls, departure: str, destination: str, fare: float, client: int, ticket: int):
+    def add_coupone(cls, departure: str, destination: str, fare: float, ticket: int, num: int, flight_time: datetime):
         return f"""
-        SELECT add_coupone({departure}, {destination}, {fare}, {client}, {ticket})
+        SELECT add_coupone({departure}, {destination}, {fare}, {ticket}, {num}, {flight_time})
         """
 
     @classmethod
-    def update_coupone(cls, id: int, departure: str, destination: str, fare: float, client: int, ticket: int):
+    def update_coupone(cls, id: int, departure: str, destination: str, fare: float, ticket: int, num: int, flight_time: datetime):
         return f"""
-        SELECT update_coupone({id}, {departure}, {destination}, {fare}, {client}, {ticket})
+        SELECT update_coupone({id}, {departure}, {destination}, {fare}, {ticket}, {num}, {flight_time})
         """
 
     @classmethod

@@ -1,3 +1,4 @@
+from datetime import datetime
 from pydantic import BaseModel
 from fastapi import Form
 
@@ -28,3 +29,21 @@ class AirlineAddSchema(Base):
 class AirlineEditSchema(AirlineAddSchema):
     ...
     
+class TicketAddSchema(Base):
+    type: int = Form(None)
+    airline: int = Form(None)
+
+class TicketEditSchema(TicketAddSchema):
+    ...
+
+class CouponeAddSchema(Base):
+    departure: str = Form(None)
+    destination: str = Form(None)
+    fare: float = Form(None)
+    ticket: int = Form(None)
+    num: int = Form(None)
+    flight_time: datetime = Form(None)
+
+
+class CouponeEditSchema(CouponeAddSchema):
+    ...
