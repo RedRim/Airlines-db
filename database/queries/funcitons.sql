@@ -89,13 +89,13 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Функции для таблицы "Clients"
-CREATE OR REPLACE FUNCTION add_client(p_email varchar, p_passport_number bigint, p_passport_series bigint, p_first_name varchar, p_last_name varchar, p_middle_name varchar) 
+CREATE OR REPLACE FUNCTION add_client(p_email varchar, p_password varchar, p_passport_number bigint, p_passport_series bigint, p_first_name varchar, p_last_name varchar, p_middle_name varchar) 
 RETURNS bigint AS $$
 DECLARE
     new_id bigint;
 BEGIN
-    INSERT INTO clients (p_email, passport_number, passport_series, first_name, last_name, middle_name) 
-    VALUES (p_email, p_passport_number, p_passport_series, p_first_name, p_last_name, p_middle_name) RETURNING id INTO new_id;
+    INSERT INTO clients (email, password, passport_number, passport_series, first_name, last_name, middle_name) 
+    VALUES (p_email, p_password, p_passport_number, p_passport_series, p_first_name, p_last_name, p_middle_name) RETURNING id INTO new_id;
     RETURN new_id;
 END;
 $$ LANGUAGE plpgsql;

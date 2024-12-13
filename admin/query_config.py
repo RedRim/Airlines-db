@@ -9,3 +9,10 @@ class ClientColumnsConfig(Enum):
     middle_name = 5
     role = 6
     email = 7
+
+class AirlineColumnsConfig(Enum):
+    id = 0
+    name = 1
+    city = 2
+    street = 3
+    house = 4

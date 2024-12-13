@@ -8,6 +8,20 @@ class AirlinesQueries:
         return f"""
         SELECT * FROM Airlines
         """
+    
+    @classmethod
+    def get_airline(cls, id: int):
+        return f"""
+        select
+            id,
+            name,
+            city,
+            street,
+            house
+        from
+            airlines
+        where id={id}
+        """
 
     @classmethod
     def add_airline(cls, name: str, city: str, street: str, house: str):
@@ -111,15 +125,15 @@ class ClientsQueries:
         """
 
     @classmethod
-    def add_client(cls, email: str, passport_number: int, passport_series: int, first_name: str, last_name: str, middle_name: str):
+    def add_client(cls, email: str, password: str, passport_number: int, passport_series: int, first_name: str, last_name: str, middle_name: str):
         return f"""
-        SELECT add_client({email}, {passport_number}, {passport_series}, {first_name}, {last_name}, {middle_name})
+        SELECT add_client('{email}', '{password}', {passport_number}, '{passport_series}', '{first_name}', '{last_name}', '{middle_name}')
         """
 
     @classmethod
     def update_client(cls, id: int, email: str, passport_number: int, passport_series: int, first_name: str, last_name: str, middle_name: str, role: int):
         return f"""
-        SELECT update_client({id}, '{email}', {passport_number}, {passport_series}, '{first_name}', '{last_name}', '{middle_name}', {role})
+        SELECT update_client({id}, {email}, {passport_number}, {passport_series}, '{first_name}', '{last_name}', '{middle_name}', {role})
         """
 
     @classmethod

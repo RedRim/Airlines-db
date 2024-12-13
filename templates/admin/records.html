@@ -1,28 +1,32 @@
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
-<div class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-6xl">
-        <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">Управление Пользователями</h1>
+<div class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-400 via-pink-500 to-red-500">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-6xl relative">
+        <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">Управление {{ case_name }}</h1>
         
-        <div class="overflow-x-auto">
+        <a href="/admin/{{ edit_route }}/add" class="absolute top-4 right-4 w-1/6 py-2 px-4 bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-md flex items-center justify-center hover:from-red-400 hover:to-orange-400 transition duration-300">
+            Добавить
+        </a>
+
+        <div class="overflow-x-auto mt-10">
             <table class="min-w-full border-collapse border border-gray-300">
                 <thead>
                     <tr>
                         {% for column in columns %}
-                            <th class="border border-gray-300 px-4 py-2">{{ column[1] }}</th>
+                            <th class="border border-gray-300 px-4 py-2">{{ column }}</th>
                         {% endfor %}
                     </tr>
                 </thead>
                 <tbody>
-                    {% for client in clients %}
+                    {% for record in records %}
                         <tr class="hover:bg-gray-50">
                             {% for column in range(len_cols) %}
                                 {% if column == 0 %}
-                                <td class="border border-gray-300 px-4 py-2">
-                                    <a href="{{ client[column] }}" class="text-blue-500 hover:text-blue-700 transition duration-300">{{ client[column] }}</a>
-                                </td>
+                                    <td class="border border-gray-300 px-4 py-2">
+                                        <a href="{{ record[column] }}" class="text-blue-500 hover:text-blue-700 transition duration-300">{{ record[column] }}</a>
+                                    </td>
                                 {% else %}
-                                    <td class="border border-gray-300 px-4 py-2">{{ client[column] }}</td>
+                                    <td class="border border-gray-300 px-4 py-2">{{ record[column] }}</td>
                                 {% endif %}
                             {% endfor %}
                         </tr>
