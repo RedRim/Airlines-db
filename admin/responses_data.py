@@ -17,7 +17,7 @@ class ClientFields:
     middle_name: HTMLField
     role: HTMLField
     email: HTMLField
-    password: HTMLField
+    password: HTMLField = None
 
 @dataclass
 class AdminFields:
@@ -38,9 +38,9 @@ class CashiersFields:
     first_name: HTMLField
     last_name: HTMLField
     middle_name: HTMLField
-    password: HTMLField
     role: HTMLField
     email: HTMLField
+    password: HTMLField = None
 
 @dataclass
 class CouponesFields:

@@ -54,6 +54,7 @@ def add_client_form(request: Request):
             field_name = 'role',
             field_id = 'role',
             type = 'text',
+            value = 2,
         ),
         email = HTMLField(
             label = 'Email',
@@ -117,7 +118,7 @@ def clients(request: Request):
                                        'case_name': 'Пользователями'})
 
 
-@router.get('/client/{id}', response_class=HTMLResponse)
+@router.get('/{id}', response_class=HTMLResponse)
 def client_form(id:int, request: Request):
     user = Connect.fetchone(Q.ClientsQueries.get_client(id=id))
 
@@ -186,7 +187,7 @@ def client_form(id:int, request: Request):
     return templates.TemplateResponse("admin/edit_record.html", response_dict)
 
 
-@router.post('/client/{id}', response_class=HTMLResponse)
+@router.post('/{id}', response_class=HTMLResponse)
 def update_client(id: int, request: Request,
           data: Annotated[ClientEditSchema, Form()]):
     data.email = data.email.strip()

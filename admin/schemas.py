@@ -19,6 +19,18 @@ class ClientEditSchema(ClientAddSchema):
     id: int = Form(None)
     role: int = Form(None)
 
+class CashierAddSchema(Base):
+    ticket_office: int = Form(None)
+    first_name: str = Form(None)
+    last_name: str = Form(None)
+    middle_name: str = Form(None)
+    password: str = Form(None)
+    email: str = Form(None)
+    role: int = Form(None)
+
+
+class CashierEditSchema(CashierAddSchema):
+    ...
 
 class AirlineAddSchema(Base):
     name: str = Form(None)

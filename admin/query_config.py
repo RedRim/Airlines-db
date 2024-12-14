@@ -10,6 +10,16 @@ class ClientColumnsConfig(Enum):
     role = 6
     email = 7
 
+class CashierColumnsConfig(Enum):
+    id = 0
+    ticket_office = 1
+    first_name = 2
+    last_name = 3
+    middle_name = 4
+    role = 5
+    email = 6
+
+
 class AirlineColumnsConfig(Enum):
     id = 0
     name = 1

@@ -83,21 +83,44 @@ class TicketOfficesQueries:
 
 class CashiersQueries:
     @classmethod
-    def get_all(cls):
+    def get_cashier(cls, id: int):
         return f"""
-        SELECT * FROM Cashiers
-        """    
-
-    @classmethod
-    def add_cashier(cls, ticket_office: int, first_name: str, last_name: str, middle_name: str):
-        return f"""
-        SELECT add_cashier({ticket_office}, '{first_name}', '{last_name}', '{middle_name}')
+        select 
+         id,
+         ticket_office,
+         first_name, 
+         last_name,
+         middle_name,
+         role,
+         email
+        from cashiers
+        where id={id}
         """
 
     @classmethod
-    def update_cashier(cls, id: int, ticket_office: int, first_name: str, last_name: str, middle_name: str):
+    def get_all(cls):
         return f"""
-        SELECT update_cashier({id}, {ticket_office}, '{first_name}', '{last_name}', '{middle_name}')
+        SELECT 
+         id,
+         ticket_office,
+         first_name, 
+         last_name,
+         middle_name,
+         role,
+         email
+            FROM Cashiers
+        """    
+
+    @classmethod
+    def add_cashier(cls, ticket_office: int, first_name: str, last_name: str, middle_name: str, password: str, email: str, role: int):
+        return f"""
+        SELECT add_cashier({ticket_office}, '{first_name}', '{last_name}', '{middle_name}', '{password}', '{email}', {role})
+        """
+
+    @classmethod
+    def update_cashier(cls, id: int, ticket_office: int, first_name: str, last_name: str, middle_name: str, email: str, role: int):
+        return f"""
+        SELECT update_cashier({id}, {ticket_office}, '{first_name}', '{last_name}', '{middle_name}', '{email}', {role})
         """
 
     @classmethod

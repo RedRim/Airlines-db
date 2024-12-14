@@ -59,22 +59,41 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Функции для таблицы "Cashiers"
-CREATE OR REPLACE FUNCTION add_cashier(p_ticket_office bigint, p_first_name varchar, p_last_name varchar, p_middle_name varchar) 
+CREATE OR REPLACE FUNCTION add_cashier(
+p_ticket_office bigint,
+p_first_name varchar, 
+p_last_name varchar,
+p_middle_name varchar,
+p_password varchar, 
+p_email varchar,
+p_role integer) 
 RETURNS bigint AS $$
 DECLARE
     new_id bigint;
 BEGIN
-    INSERT INTO cashiers (ticket_office, first_name, last_name, middle_name) 
-    VALUES (p_ticket_office, p_first_name, p_last_name, p_middle_name) RETURNING id INTO new_id;
+    INSERT INTO cashiers (ticket_office, first_name, last_name, middle_name, password, email, role) 
+    VALUES (p_ticket_office, p_first_name, p_last_name, p_middle_name, p_password, p_email, p_role) RETURNING id INTO new_id;
     RETURN new_id;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;ql;
 
-CREATE OR REPLACE FUNCTION update_cashier(p_id bigint, p_ticket_office bigint, p_first_name varchar, p_last_name varchar, p_middle_name varchar)
+CREATE OR REPLACE FUNCTION update_cashier(
+p_id bigint, 
+p_ticket_office bigint, 
+p_first_name varchar, 
+p_last_name varchar,
+p_middle_name varchar,
+p_email varchar,
+p_role integer)
 RETURNS bigint AS $$
 BEGIN
     UPDATE cashiers 
-    SET ticket_office = p_ticket_office, first_name = p_first_name, last_name = p_last_name, middle_name = p_middle_name
+    SET ticket_office = p_ticket_office, 
+		first_name = p_first_name, 
+		last_name = p_last_name, 
+		middle_name = p_middle_name,
+		email = p_email,
+		role = p_role
     WHERE id = p_id;
     RETURN p_id;
 END;
