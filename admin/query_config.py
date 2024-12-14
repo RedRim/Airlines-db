@@ -30,3 +30,10 @@ class CouponesColumnsConfig(Enum):
     ticket = 4
     num = 5
     flight_time = 6 
+
+class TicketOfficeColumnsConfig(Enum):
+    id = 0
+    city = 1
+    street = 2
+    house = 3
+

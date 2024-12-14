@@ -6,6 +6,7 @@ from .tables.clients import router as clients_router
 from .tables.airlines import router as airlines_router
 from .tables.tickets import router as tickets_router
 from .tables.coupones import router as coupones_router
+from .tables.ticket_offices import router as ticket_offices_router
 from settings import templates
 
 router = APIRouter()
@@ -14,6 +15,7 @@ router.include_router(clients_router, prefix='/clients')
 router.include_router(airlines_router, prefix='/airlines')
 router.include_router(tickets_router, prefix='/tickets')
 router.include_router(coupones_router, prefix='/coupones')
+router.include_router(ticket_offices_router, prefix='/ticket_offices')
 
 
 @router.get('/', response_class=HTMLResponse)

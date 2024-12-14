@@ -26,7 +26,7 @@ class IndexTicketsQueries:
                         SUM(c.fare) OVER (PARTITION BY t.id) AS total_fare,
                         FIRST_VALUE(c.departure) OVER (PARTITION BY t.id ORDER BY c.num) AS start_point,
                         LAST_VALUE(c.destination) OVER (PARTITION BY t.id ORDER BY c.num ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS end_point,
-                        c.flight_time
+						LAST_VALUE(c.flight_time) OVER (PARTITION BY t.id ORDER BY c.num ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS flight_time
                     FROM 
                         tickets t
                     JOIN 

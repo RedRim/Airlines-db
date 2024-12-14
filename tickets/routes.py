@@ -44,6 +44,7 @@ def index_post(request: Request,
                                                        departure_date_to=departure_date_to,
                                                        departure=departure,
                                                        destination=destination))
+    print(rows)
     
     for ticket in rows:
         ticket_id = ticket[cols.TICKET_ID.value]
@@ -57,6 +58,7 @@ def index_post(request: Request,
             tickets[ticket_id]['flight_time'] = ticket[cols.FLIGHT_TIME.value].strftime('%Y-%m-%d %H:%M')
         else:
             tickets[ticket_id]['route'] += f' - {ticket[cols.DESTINATION.value]}'
+        print(ticket[cols.DEPARTURE.value], ticket[cols.DESTINATION.value])
 
 
     return templates.TemplateResponse("tickets.html", {

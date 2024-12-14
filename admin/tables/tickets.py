@@ -45,7 +45,7 @@ def add_ticket_form(request: Request):
     return templates.TemplateResponse("admin/add_record.html", response_dict)
 
 @router.post('/add', response_class=HTMLResponse)
-def add_client(request: Request,
+def add_ticket(request: Request,
           data: Annotated[TicketAddSchema, Form()]):
     Connect.execute(Q.TicketsQueries.add_ticket(
         data.type, data.airline,
@@ -56,7 +56,7 @@ def add_client(request: Request,
     return redirect_response
 
 @router.get('/', response_class=HTMLResponse)
-def airlines(request: Request):
+def tickets(request: Request):
     columns = [
         'ID',
         'Класс',
@@ -108,7 +108,7 @@ def update_ticket_form(id:int, request: Request):
 
 
 @router.post('/{id}', response_class=HTMLResponse)
-def update_airline(id: int, request: Request,
+def update_ticket(id: int, request: Request,
           data: Annotated[TicketEditSchema, Form()]):
     Connect.execute(Q.TicketsQueries.update_ticket(
         id, data.type, data.airline
@@ -120,7 +120,7 @@ def update_airline(id: int, request: Request,
 
 
 @router.post('/delete/{id}', response_class=HTMLResponse)
-def delete_airline(id: int, request: Request):
+def delete_ticket(id: int, request: Request):
     Connect.execute(Q.TicketsQueries.delete_ticket(id))
     return RedirectResponse(url='/admin/tickets', status_code=303)
 

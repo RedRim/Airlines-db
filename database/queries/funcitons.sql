@@ -162,11 +162,12 @@ DECLARE
     new_id integer;
 BEGIN
     INSERT INTO coupones (departure, destination, fare, ticket, num, flight_time)
-    VALUES (p_departure, p_destination, p_fare, p_ticket, num, flight_time)
+    VALUES (p_departure, p_destination, p_fare, p_ticket, p_num, p_flight_time)
     RETURNING id INTO new_id;
     RETURN new_id;
 END;
 $$ LANGUAGE plpgsql;
+
 
 CREATE OR REPLACE FUNCTION update_coupone(
     p_id integer,
@@ -190,6 +191,7 @@ BEGIN
     RETURN p_id;
 END;
 $$ LANGUAGE plpgsql;
+
 
 CREATE OR REPLACE FUNCTION delete_coupone(p_id BIGINT) RETURNS BIGINT AS $$
 BEGIN

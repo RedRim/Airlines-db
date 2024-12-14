@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Form, HTTPException
+from fastapi import APIRouter, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.requests import Request
 

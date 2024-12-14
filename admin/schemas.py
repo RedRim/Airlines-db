@@ -42,8 +42,16 @@ class CouponeAddSchema(Base):
     fare: float = Form(None)
     ticket: int = Form(None)
     num: int = Form(None)
-    flight_time: datetime = Form(None)
+    flight_time: str = Form(None)
 
 
 class CouponeEditSchema(CouponeAddSchema):
+    ...
+
+class TicketOfficeAddSchema(Base):
+    city: str = Form(None)
+    street: str = Form(None)
+    house: str = Form(None)
+
+class TicketOfficeEditSchema(TicketOfficeAddSchema):
     ...

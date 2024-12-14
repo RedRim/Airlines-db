@@ -53,7 +53,7 @@ def add_coupone_form(request: Request):
             label='Дата и время вылета',
             field_name='flight_time',
             field_id='flight_time',
-            type='text'
+            type='datetime-local'
         ),        
     )
 
@@ -61,7 +61,7 @@ def add_coupone_form(request: Request):
         "request": request, 
         'fields': asdict(fields),
         'case_name': 'Купона',
-        'route': 'tickets',
+        'route': 'coupones',
         }
     
     
@@ -71,11 +71,11 @@ def add_coupone_form(request: Request):
 @router.post('/add', response_class=HTMLResponse)
 def add_coupone(request: Request,
           data: Annotated[CouponeAddSchema, Form()]):
-    Connect.execute(Q.TicketsQueries.add_ticket(
-        data.type, data.airline,
+    Connect.execute(Q.CouponesQueries.add_coupone(
+        data.departure, data.destination, data.fare, data.ticket, data.num, data.flight_time
     ))
 
-    redirect_response = RedirectResponse(url='/admin/tickets', status_code=303)
+    redirect_response = RedirectResponse(url='/admin/coupones', status_code=303)
 
     return redirect_response
 
@@ -170,7 +170,7 @@ def update_coupone(id: int, request: Request,
         id, data.departure, data.destination, data.fare, data.ticket, data.num, data.flight_time
     ))
 
-    redirect_response = RedirectResponse(url='/admin/tickets', status_code=303)
+    redirect_response = RedirectResponse(url='/admin/coupones', status_code=303)
 
     return redirect_response
 

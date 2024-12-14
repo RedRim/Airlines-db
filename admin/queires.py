@@ -45,6 +45,19 @@ class AirlinesQueries:
 
 class TicketOfficesQueries:
     @classmethod
+    def get_ticket_office(cls, id: int):
+        return f"""
+        select
+            id,
+            city,
+            street,
+            house
+        from
+            ticket_offices
+        where id={id}
+        """
+    
+    @classmethod
     def get_all(cls):
         return f"""
         SELECT * FROM ticket_offices
@@ -189,15 +202,15 @@ class CouponesQueries:
         """ 
 
     @classmethod
-    def add_coupone(cls, departure: str, destination: str, fare: float, ticket: int, num: int, flight_time: datetime):
+    def add_coupone(cls, departure: str, destination: str, fare: float, ticket: int, num: int, flight_time: str):
         return f"""
-        SELECT add_coupone({departure}, {destination}, {fare}, {ticket}, {num}, {flight_time})
+        SELECT add_coupone('{departure}', '{destination}', {fare}, {ticket}, {num}, '{flight_time}')
         """
 
     @classmethod
     def update_coupone(cls, id: int, departure: str, destination: str, fare: float, ticket: int, num: int, flight_time: datetime):
         return f"""
-        SELECT update_coupone({id}, {departure}, {destination}, {fare}, {ticket}, {num}, {flight_time})
+        SELECT update_coupone({id}, '{departure}', '{destination}', {fare}, {ticket}, {num}, '{flight_time}')
         """
 
     @classmethod
