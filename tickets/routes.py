@@ -6,6 +6,7 @@ from database.connection import Connect
 from .queries import TicketsQueries
 from database.query_config import IndexTicketsConfig
 from auth.token import get_user_role
+from .query_config import CouponesConfig
 
 from settings import templates
 
@@ -15,7 +16,7 @@ router = APIRouter()
 
 @router.get("/", response_class=HTMLResponse)
 def index_get(request: Request):
-    return templates.TemplateResponse("tickets.html", {
+    return templates.TemplateResponse("tickets/tickets.html", {
         "request": request,
         'tickets': None,
     })
@@ -69,7 +70,7 @@ def index_post(request: Request,
 
 
 
-    return templates.TemplateResponse("tickets.html", {
+    return templates.TemplateResponse("tickets/tickets.html", {
         "request": request,
         'tickets': tickets.values(),
         'departure_date_from': departure_date_from,
@@ -77,4 +78,27 @@ def index_post(request: Request,
         'departure': departure,
         'destination': destination,
         'redirect_route': redirect_routes[role],
+    })
+
+@router.get("/tickets/{id}", response_class=HTMLResponse)
+def ticket_detail(request: Request,
+                  id: int):
+    coupones_rows = Connect.fetchall(TicketsQueries.get_coupones(id))
+    coupones = [
+        {
+        'departure' :row[CouponesConfig.departure.value],
+        'destination': row[CouponesConfig.destination.value],
+        'fare': row[CouponesConfig.fare.value],
+        'num': row[CouponesConfig.num.value],
+        'type': 'Бизнес' if row[CouponesConfig.type.value] == 1 else 'Эконом',
+        'flight_time': row[CouponesConfig.flight_time.value],
+        'destination_time': row[CouponesConfig.destination_time.value],
+        'time': row[CouponesConfig.time.value],
+        }
+        for row in coupones_rows
+    ]
+
+    return templates.TemplateResponse("tickets/ticket_detail.html", {
+        "request": request,
+        'coupones': coupones,
     })

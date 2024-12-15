@@ -44,7 +44,25 @@ class TicketsQueries:
                 subquery.ticket_id, subquery.num;
         """
     
-    # @classmethod
-    # def get_coupones(cls, ticket_id: int):
+    @classmethod
+    def get_coupones(cls, ticket_id: int):
+        return f"""
+        SELECT 
+            c.departure, 
+            c.destination,
+            c.fare,
+            c.num,
+            t.type,
+            c.flight_time,
+            c.flight_time + (c.duration * INTERVAL '1 minute') AS destination_time,
+            CONCAT(FLOOR(duration / 60), 'ч ', MOD(duration, 60), 'м') AS time
+        FROM 
+            coupones c
+        JOIN 
+            tickets t ON c.ticket = t.id
+        WHERE
+            t.id = {ticket_id}
+        order by c.num
+        """
 
 

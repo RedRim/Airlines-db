@@ -1,0 +1,36 @@
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+<div class="flex flex-col min-h-screen">
+  <header class="bg-gradient-to-r from-purple-500 to-red-600 shadow-lg">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <h1 class="text-3xl font-extrabold text-white tracking-tight">
+        Airlines
+      </h1>
+      <nav class="space-x-6">
+        <a href="/profile" class="text-white hover:text-yellow-300 transition duration-200">Профиль</a>
+        <form action="/logout" method="post" class="inline">
+          <button type="submit" class="text-white hover:text-yellow-300 transition duration-200">
+              Выйти
+          </button>
+        </form>
+      </nav>
+    </div>
+  </header>
+
+  <div class="flex flex-col items-center justify-center flex-1 bg-gradient-to-br from-purple-400 via-pink-500 to-red-500">
+    <h2 class="text-2xl font-bold text-white mb-6">Детальная информация билете</h2>
+    <div class="grid grid-cols-1 gap-6 w-full max-w-3xl">
+      {% for coupone in coupones %}
+        <div class="bg-white rounded-lg shadow-lg p-6">
+          <h3 class="text-xl font-semibold text-gray-800">Купон {{ coupone.num }}</h3>
+          <p class="mt-2 text-gray-600">Маршрут: <span class="font-semibold">{{ coupone.departure }} - {{ coupone.destination }}</span></p>
+          <p class="mt-1 text-gray-600">Цена: <span class="font-semibold text-lg text-green-500">{{ coupone.fare }} ₽</span></p>
+          <p class="mt-1 text-gray-600">Время вылета: <span class="font-semibold">{{ coupone.flight_time }}</span></p>
+          <p class="mt-1 text-gray-600">Время прибытия: <span class="font-semibold">{{ coupone.destination_time }}</span></p>
+          <p class="mt-1 text-gray-600">Длительность: <span class="font-semibold">{{ coupone.time }}</span></p>
+          <p class="mt-1 text-gray-600">Класс: <span class="font-semibold">{{ coupone.type }}</span></p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

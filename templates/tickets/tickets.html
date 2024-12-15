@@ -47,7 +47,11 @@
       {% for ticket in tickets %}
         <div class="grid grid-cols-1 gap-6 w-full max-w-3xl">
           <div class="bg-white rounded-lg shadow-lg p-6">
-            <h2 class="text-xl font-bold text-gray-800">Авиакомпания «{{ ticket.airline }}»</h2>
+            <h2 class="text-xl font-bold text-gray-800">
+              <a href="tickets/{{ ticket.id }}">
+                Авиакомпания «{{ ticket.airline }}»
+              </a>
+            </h2>
             <p class="mt-2 text-gray-600">Цена билета: <span class="font-semibold text-lg text-green-500">{{ ticket.fare }} ₽</span></p>
             <p class="mt-1 text-gray-600">Маршрут: <span class="font-semibold">{{ ticket.route }}</span></p>
             <p class="mt-1 text-gray-600">Дата перелета: <span class="font-semibold">{{ ticket.flight_time }}</span></p>
