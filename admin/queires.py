@@ -171,7 +171,7 @@ class ClientsQueries:
     @classmethod
     def update_client(cls, id: int, email: str, passport_number: int, passport_series: int, first_name: str, last_name: str, middle_name: str, role: int):
         return f"""
-        SELECT update_client({id}, {email}, {passport_number}, {passport_series}, '{first_name}', '{last_name}', '{middle_name}', {role})
+        SELECT update_client({id}, '{email}', {passport_number}, {passport_series}, '{first_name}', '{last_name}', '{middle_name}', {role})
         """
 
     @classmethod

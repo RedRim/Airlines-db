@@ -78,7 +78,7 @@ def add_coupone_form(request: Request):
 def add_coupone(request: Request,
           data: Annotated[CouponeAddSchema, Form()]):
     Connect.execute(Q.CouponesQueries.add_coupone(
-        data.departure, data.destination, data.fare, data.ticket, data.num, data.flight_time
+        data.departure, data.destination, data.fare, data.ticket, data.num, data.flight_time, data.duration
     ))
 
     redirect_response = RedirectResponse(url='/admin/coupones', status_code=303)

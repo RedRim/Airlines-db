@@ -44,32 +44,32 @@
     </div>
 
     {% if tickets %}
+    <div class="grid grid-cols-1 gap-6 w-full max-w-3xl">
       {% for ticket in tickets %}
-        <div class="grid grid-cols-1 gap-6 w-full max-w-3xl">
-          <div class="bg-white rounded-lg shadow-lg p-6">
-            <h2 class="text-xl font-bold text-gray-800">
-              <a href="tickets/{{ ticket.id }}">
-                Авиакомпания «{{ ticket.airline }}»
+        <div class="bg-white rounded-lg shadow-lg p-6 space-y-4 mb-4">
+          <h2 class="text-xl font-bold text-gray-800">
+            <a href="tickets/{{ ticket.id }}">
+              Авиакомпания «{{ ticket.airline }}»
+            </a>
+          </h2>
+          <p class="mt-2 text-gray-600">Цена билета: <span class="font-semibold text-lg text-green-500">{{ ticket.fare }} ₽</span></p>
+          <p class="mt-1 text-gray-600">Маршрут: <span class="font-semibold">{{ ticket.route }}</span></p>
+          <p class="mt-1 text-gray-600">Дата перелета: <span class="font-semibold">{{ ticket.flight_time }}</span></p>
+          <p class="mt-1 text-gray-600">Класс: <span class="font-semibold">{{ ticket.type }}</span></p>
+          <div class="mt-4">
+            {% if redirect_route == "/cashiers/sale_ticket" %}
+              <a href="{{ redirect_route }}/{{ ticket.id }}" class="w-1/5 py-2 px-4 bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-md hover:from-red-400 hover:to-orange-400 text-center block transition duration-300">
+                Купить билет
               </a>
-            </h2>
-            <p class="mt-2 text-gray-600">Цена билета: <span class="font-semibold text-lg text-green-500">{{ ticket.fare }} ₽</span></p>
-            <p class="mt-1 text-gray-600">Маршрут: <span class="font-semibold">{{ ticket.route }}</span></p>
-            <p class="mt-1 text-gray-600">Дата перелета: <span class="font-semibold">{{ ticket.flight_time }}</span></p>
-            <p class="mt-1 text-gray-600">Класс: <span class="font-semibold">{{ ticket.type }}</span></p>
-            <div class="mt-4">
-              {% if redirect_route == "/cashiers/sale_ticket" %}
-                <a href="{{ redirect_route }}/{{ ticket.id }}" class="w-1/5 py-2 px-4 bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-md hover:from-red-400 hover:to-orange-400 text-center block transition duration-300">
-                  Купить билет
-                </a>
-              {% else %}  
-                <a href="{{ redirect_route }}" class="w-1/5 py-2 px-4 bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-md hover:from-red-400 hover:to-orange-400 text-center block transition duration-300">
-                  Купить билет
-                </a>
-              {% endif %}
-            </div>
+            {% else %}  
+              <a href="{{ redirect_route }}" class="w-1/5 py-2 px-4 bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-md hover:from-red-400 hover:to-orange-400 text-center block transition duration-300">
+                Купить билет
+              </a>
+            {% endif %}
           </div>
         </div>
       {% endfor %}
-    {% endif %}
+    </div>
+  {% endif %}
   </div>
 </div>

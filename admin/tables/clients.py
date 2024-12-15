@@ -192,7 +192,7 @@ def update_client(id: int, request: Request,
           data: Annotated[ClientEditSchema, Form()]):
     data.email = data.email.strip()
     Connect.execute(Q.ClientsQueries.update_client(
-        data.id, data.email, data.passport_number, data.passport_series, data.first_name, data.last_name, 
+        id, data.email, data.passport_number, data.passport_series, data.first_name, data.last_name, 
         data.middle_name, data.role
     ))
 
