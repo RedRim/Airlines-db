@@ -4,7 +4,7 @@ from fastapi.responses import HTMLResponse
 
 from database.connection import Connect
 from .queries import TicketsQueries
-from database.query_config import IndexTicketsConfig
+from .query_config import IndexTicketsConfig
 from auth.token import get_user_role
 from .query_config import CouponesConfig
 
@@ -29,7 +29,6 @@ def index_post(request: Request,
                 departure: str = Form(None),
                 destination: str = Form(None)):
     
-    tickets = {}
     cols = IndexTicketsConfig
 
     if not (departure_date_from and departure_date_to and departure and destination):
@@ -48,6 +47,7 @@ def index_post(request: Request,
                                                        departure=departure,
                                                        destination=destination))
     
+    tickets = {}
     for ticket in rows:
         ticket_id = ticket[cols.TICKET_ID.value]
         if ticket_id not in tickets:

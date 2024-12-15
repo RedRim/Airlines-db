@@ -1,0 +1,50 @@
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+<div class="flex flex-col min-h-screen">
+  <header class="bg-gradient-to-r from-purple-500 to-red-600 shadow-lg">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <h1 class="text-3xl font-extrabold text-white tracking-tight">{{ user_name }}</h1>
+      <nav class="space-x-6">
+        <a href="/" class="text-white hover:text-yellow-300 transition duration-200">Главная</a>
+        <form action="/logout" method="post" class="inline">
+          <button type="submit" class="text-white hover:text-yellow-300 transition duration-200">Выйти</button>
+        </form>
+      </nav>
+    </div>
+  </header>
+
+  <div class="flex flex-col items-center justify-center flex-1 bg-gradient-to-br from-purple-400 via-pink-500 to-red-500">
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-8 w-full max-w-3xl">
+      <h2 class="text-xl font-bold text-gray-800 mb-4">Информация</h2>
+      <div class="space-y-4">
+        {% for idx, field in fields %}
+          <p><span class="font-semibold">{{ field }}:</span> {{ columns_response[idx] }}</p>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-3xl">
+    {% if tickets %}
+      <h2 class="text-xl font-bold text-gray-800 mb-4">Билеты</h2>
+      {% for ticket in tickets %}
+        <div class="grid grid-cols-1 gap-6 w-full max-w-3xl">
+          <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-bold text-gray-800">
+              <a href="tickets/{{ ticket.id }}">
+                Авиакомпания «{{ ticket.airline }}»
+              </a>
+            </h2>
+            
+            <p class="mt-2 text-gray-600">Цена билета: <span class="font-semibold text-lg text-green-500">{{ ticket.fare }} ₽</span></p>
+            <p class="mt-1 text-gray-600">Маршрут: <span class="font-semibold">{{ ticket.route }}</span></p>
+            <p class="mt-1 text-gray-600">Дата перелета: <span class="font-semibold">{{ ticket.flight_time }}</span></p>
+            <p class="mt-1 text-gray-600">Класс: <span class="font-semibold">{{ ticket.type }}</span></p>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+        <p class="text-gray-600">{{ zero_tickets_text }}</p>
+    {% endif %}
+    </div>
+</div>
+</div>
