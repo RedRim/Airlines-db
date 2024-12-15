@@ -53,8 +53,6 @@ def register(request: Request,
     return redirect_response
 
 
-
-
 @router.get('/login', response_class=HTMLResponse)
 def login_form(request: Request):
     return templates.TemplateResponse("auth/login.html", {"request": request})
@@ -64,7 +62,6 @@ def login_form(request: Request):
 def login(request: Request,
           data: Annotated[ClientLoginSchema, Form()],):
     result = Connect.fetchone(Auth.login(data.email))
-    print(data)
     if not result:
         raise HTTPException(status_code=401, detail="Неверный email")
     q_email, q_password, q_role, q_id = result[0].strip(), result[1].strip(), result[2], result[3]

@@ -1,4 +1,4 @@
-class IndexTicketsQueries:
+class TicketsQueries:
     @classmethod
     def get_all(cls, departure_date_from, departure_date_to, departure, destination):
         return f"""
@@ -43,4 +43,8 @@ class IndexTicketsQueries:
             ORDER BY 
                 subquery.ticket_id, subquery.num;
         """
+    
+    # @classmethod
+    # def get_coupones(cls, ticket_id: int):
+
 

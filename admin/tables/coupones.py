@@ -54,7 +54,13 @@ def add_coupone_form(request: Request):
             field_name='flight_time',
             field_id='flight_time',
             type='datetime-local'
-        ),        
+        ),
+        duration = HTMLField(
+            label='Продолжительность(мин)',
+            field_name='duration',
+            field_id='duration',
+            type='text',
+        ),
     )
 
     response_dict = {
@@ -89,10 +95,10 @@ def coupones(request: Request):
         'Билет',
         'Номер пересадки',
         'Дата и время вылета',
+        'Продолжительность',
     ]
 
     coupones = Connect.fetchall(Q.CouponesQueries.get_all())
-    print(coupones)
 
     return templates.TemplateResponse('admin/records.html',
                                       {'request': request,
@@ -150,6 +156,13 @@ def update_coupone_form(id:int, request: Request):
             type='text',
             value=coupone[CouponesColumnsConfig.flight_time.value],
         ),
+        duration = HTMLField(
+            label='Продолжительность(мин)',
+            field_name='duration',
+            field_id='duration',
+            type='text',
+            value=coupone[CouponesColumnsConfig.duration.value],
+        ),
     )
 
     response_dict = {
@@ -167,7 +180,7 @@ def update_coupone_form(id:int, request: Request):
 def update_coupone(id: int, request: Request,
           data: Annotated[CouponeEditSchema, Form()]):
     Connect.execute(Q.CouponesQueries.update_coupone(
-        id, data.departure, data.destination, data.fare, data.ticket, data.num, data.flight_time
+        id, data.departure, data.destination, data.fare, data.ticket, data.num, data.flight_time, data.duration
     ))
 
     redirect_response = RedirectResponse(url='/admin/coupones', status_code=303)

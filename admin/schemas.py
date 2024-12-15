@@ -55,6 +55,7 @@ class CouponeAddSchema(Base):
     ticket: int = Form(None)
     num: int = Form(None)
     flight_time: str = Form(None)
+    duration: int = Form(None)
 
 
 class CouponeEditSchema(CouponeAddSchema):
@@ -67,3 +68,7 @@ class TicketOfficeAddSchema(Base):
 
 class TicketOfficeEditSchema(TicketOfficeAddSchema):
     ...
+
+class SaleTicketAddSchema(Base):
+    client: int = Form(None)
+    ticket: int = Form(None)

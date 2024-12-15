@@ -1,10 +1,11 @@
-from fastapi import APIRouter, Form, Request
+from fastapi import APIRouter, Form, Request, Depends
 from fastapi import Form, Request
 from fastapi.responses import HTMLResponse
 
 from database.connection import Connect
-from .queries import IndexTicketsQueries
+from .queries import TicketsQueries
 from database.query_config import IndexTicketsConfig
+from auth.token import get_user_role
 
 from settings import templates
 
@@ -21,6 +22,7 @@ def index_get(request: Request):
 
 @router.post("/", response_class=HTMLResponse)
 def index_post(request: Request,
+                role: int = Depends(get_user_role),
                 departure_date_from: str = Form(None),
                 departure_date_to: str = Form(None),
                 departure: str = Form(None),
@@ -40,11 +42,10 @@ def index_post(request: Request,
             'destination': destination
         })
 
-    rows = Connect.fetchall(IndexTicketsQueries.get_all(departure_date_from=departure_date_from, 
+    rows = Connect.fetchall(TicketsQueries.get_all(departure_date_from=departure_date_from, 
                                                        departure_date_to=departure_date_to,
                                                        departure=departure,
                                                        destination=destination))
-    print(rows)
     
     for ticket in rows:
         ticket_id = ticket[cols.TICKET_ID.value]
@@ -58,7 +59,14 @@ def index_post(request: Request,
             tickets[ticket_id]['flight_time'] = ticket[cols.FLIGHT_TIME.value].strftime('%Y-%m-%d %H:%M')
         else:
             tickets[ticket_id]['route'] += f' - {ticket[cols.DESTINATION.value]}'
-        print(ticket[cols.DEPARTURE.value], ticket[cols.DESTINATION.value])
+
+    redirect_routes = {
+        0: '/admin',
+        1: '/cashiers/sale_ticket',
+        2: '/clients/tickets_offices',
+        -1: '/login',
+    }
+
 
 
     return templates.TemplateResponse("tickets.html", {
@@ -67,5 +75,6 @@ def index_post(request: Request,
         'departure_date_from': departure_date_from,
         'departure_date_to': departure_date_to,
         'departure': departure,
-        'destination': destination
+        'destination': destination,
+        'redirect_route': redirect_routes[role],
     })

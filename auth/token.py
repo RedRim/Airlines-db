@@ -19,6 +19,7 @@ def get_current_user_data(request: Request):
 
     
 def create_token(email: str, user_id: int, role: int):
+    """Создание токена(при авторизации)"""
     payload = {
         'id': user_id,
         'role': role,
@@ -27,6 +28,28 @@ def create_token(email: str, user_id: int, role: int):
     token = security.create_access_token(uid=email, data=payload)
 
     return token
+
+def get_user_role(request: Request):
+    token = request.cookies.get(config.JWT_ACCESS_COOKIE_NAME)
+    if not token:
+        return -1  # токен отсутствует
+    try:
+        payload = jwt.decode(token, config.JWT_SECRET_KEY, algorithms=['HS256'])
+        role = payload.get('role')
+        return role
+    except JWTError:
+        return -1  # токен недействителен
+
+def get_user_id(request: Request):
+    token = request.cookies.get(config.JWT_ACCESS_COOKIE_NAME)
+    if not token:
+        return -1  # токен отсутствует
+    try:
+        payload = jwt.decode(token, config.JWT_SECRET_KEY, algorithms=['HS256'])
+        id = payload.get('id')
+        return id
+    except JWTError:
+        return -1  
 
 
 def role_required(allowed_roles: list[int]):

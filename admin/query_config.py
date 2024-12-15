@@ -40,6 +40,7 @@ class CouponesColumnsConfig(Enum):
     ticket = 4
     num = 5
     flight_time = 6 
+    duration = 7
 
 class TicketOfficeColumnsConfig(Enum):
     id = 0

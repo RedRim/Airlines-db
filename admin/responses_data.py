@@ -50,13 +50,12 @@ class CouponesFields:
     ticket: HTMLField
     num: HTMLField
     flight_time: HTMLField
+    duration: HTMLField
 
 @dataclass
 class SaleTicketFields:
     ticket: HTMLField
-    cashier: HTMLField
     client: HTMLField
-    sale_date: HTMLField
 
 @dataclass
 class TicketOfficesFields:

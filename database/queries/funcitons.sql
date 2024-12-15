@@ -175,13 +175,14 @@ CREATE OR REPLACE FUNCTION add_coupone(
     p_fare NUMERIC, 
     p_ticket integer,
 	p_num integer,
-	p_flight_time timestamp
+	p_flight_time timestamp,
+	p_duration integer
 ) RETURNS integer AS $$
 DECLARE
     new_id integer;
 BEGIN
-    INSERT INTO coupones (departure, destination, fare, ticket, num, flight_time)
-    VALUES (p_departure, p_destination, p_fare, p_ticket, p_num, p_flight_time)
+    INSERT INTO coupones (departure, destination, fare, ticket, num, flight_time, duration)
+    VALUES (p_departure, p_destination, p_fare, p_ticket, p_num, p_flight_time, p_duration)
     RETURNING id INTO new_id;
     RETURN new_id;
 END;
@@ -195,7 +196,8 @@ CREATE OR REPLACE FUNCTION update_coupone(
     p_fare NUMERIC, 
     p_ticket integer,
 	p_num integer,
-	p_flight_time timestamp
+	p_flight_time timestamp,
+	p_duration integer
 ) RETURNS integer AS $$
 BEGIN
     UPDATE coupones 
@@ -205,7 +207,8 @@ BEGIN
         fare = p_fare, 
         ticket = p_ticket,
 		num = p_num,
-		flight_time = p_flight_time
+		flight_time = p_flight_time,
+		duration = p_duration
     WHERE id = p_id;
     RETURN p_id;
 END;

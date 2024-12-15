@@ -225,15 +225,15 @@ class CouponesQueries:
         """ 
 
     @classmethod
-    def add_coupone(cls, departure: str, destination: str, fare: float, ticket: int, num: int, flight_time: str):
+    def add_coupone(cls, departure: str, destination: str, fare: float, ticket: int, num: int, flight_time: str, duration: int):
         return f"""
-        SELECT add_coupone('{departure}', '{destination}', {fare}, {ticket}, {num}, '{flight_time}')
+        SELECT add_coupone('{departure}', '{destination}', {fare}, {ticket}, {num}, '{flight_time}', {duration})
         """
 
     @classmethod
-    def update_coupone(cls, id: int, departure: str, destination: str, fare: float, ticket: int, num: int, flight_time: datetime):
+    def update_coupone(cls, id: int, departure: str, destination: str, fare: float, ticket: int, num: int, flight_time: str, duration: int):
         return f"""
-        SELECT update_coupone({id}, '{departure}', '{destination}', {fare}, {ticket}, {num}, '{flight_time}')
+        SELECT update_coupone({id}, '{departure}', '{destination}', {fare}, {ticket}, {num}, '{flight_time}', {duration})
         """
 
     @classmethod
