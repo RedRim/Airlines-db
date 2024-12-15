@@ -11,7 +11,7 @@ from tickets.query_config import IndexTicketsConfig
 
 router = APIRouter()
 
-@router.get("/ticket_offices", response_class=HTMLResponse)
+@router.get("/tickets_offices", response_class=HTMLResponse)
 def ticket_offices(request: Request):
 
     ticket_offices_rows = Connect.fetchall(TicketOfficesQueries.get_all())

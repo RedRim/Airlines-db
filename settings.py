@@ -5,8 +5,8 @@ from pathlib import Path
 class Settings:
     app_name: str = 'Best Airlines app'
     debug: bool = True
-    static_url: str = '/static'
-    static_dir: Path = Path(__file__).parent / 'static'
+    # static_url: str = '/static'
+    # static_dir: Path = Path(__file__).parent / 'static'
 
 settings = Settings()
 

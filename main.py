@@ -13,12 +13,12 @@ from cashiers.routers import router as cashier_router
 
 app = FastAPI(title=Settings.app_name, debug=Settings.debug)
 
-app.mount(Settings.static_url, StaticFiles(directory=Settings.static_dir), name='static')
+# app.mount(Settings.static_url, StaticFiles(directory=Settings.static_dir), name='static')
 
 app.include_router(tickets_router, prefix='', tags=['Tickets'])
 app.include_router(admin_router, prefix='/admin', tags=['Admin'])
 app.include_router(auth_router, prefix='', tags=['Auth'])
-app.include_router(clients_router, prefix='', tags=['Clients'])
+app.include_router(clients_router, prefix='/clients', tags=['Clients'])
 app.include_router(cashier_router, prefix='/cashiers', tags=['Cashiers'])
 
 
