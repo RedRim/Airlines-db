@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Form, HTTPException
+from fastapi import APIRouter, Depends, Form, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.requests import Request
 
@@ -7,6 +7,7 @@ from dataclasses import asdict
 
 from database.connection import Connect
 from settings import templates
+from auth.token import role_required
 
 from admin.schemas import CashierAddSchema, CashierEditSchema
 from admin import queires as Q
@@ -14,10 +15,11 @@ from admin.responses_data import HTMLField, CashiersFields
 from admin.query_config import CashierColumnsConfig
 
 
+
 router = APIRouter()
 
 @router.get('/add', response_class=HTMLResponse)
-def add_cashier_form(request: Request):
+def add_cashier_form(request: Request, user = Depends(role_required([0])),):
     fields = CashiersFields(
         ticket_office = HTMLField(
             label='Касса',
@@ -75,7 +77,7 @@ def add_cashier_form(request: Request):
 
 @router.post('/add', response_class=HTMLResponse)
 def add_cashier(request: Request,
-          data: Annotated[CashierAddSchema, Form()]):
+          data: Annotated[CashierAddSchema, Form()], user = Depends(role_required([0])),):
     data.email = data.email.strip()
     Connect.execute(Q.CashiersQueries.add_cashier(
         data.ticket_office, data.first_name, data.last_name, 
@@ -87,7 +89,7 @@ def add_cashier(request: Request,
     return redirect_response
 
 @router.get('/', response_class=HTMLResponse)
-def cashiers(request: Request):
+def cashiers(request: Request, user = Depends(role_required([0])),):
     columns = [
         'ID',
         'Касса',
@@ -111,7 +113,7 @@ def cashiers(request: Request):
 
 @router.get('/{id}', response_class=HTMLResponse)
 def cashier_form(id:int, request: Request):
-    cashier = Connect.fetchone(Q.CashiersQueries.get_cashier(id=id))
+    cashier = Connect.fetchone(Q.CashiersQueries.get_cashier(id=id), user = Depends(role_required([0])),)
 
     fields = CashiersFields(
         ticket_office = HTMLField(
@@ -173,7 +175,7 @@ def cashier_form(id:int, request: Request):
 
 @router.post('/{id}', response_class=HTMLResponse)
 def update_cashier(id: int, request: Request,
-          data: Annotated[CashierEditSchema, Form()]):
+          data: Annotated[CashierEditSchema, Form()], user = Depends(role_required([0])),):
     data.email = data.email.strip()
     Connect.execute(Q.CashiersQueries.update_cashier(
         id, data.ticket_office, data.first_name, data.last_name, 
@@ -188,6 +190,6 @@ def update_cashier(id: int, request: Request,
 
 
 @router.post('/delete/{id}', response_class=HTMLResponse)
-def delete_cashier(id: int, request: Request):
+def delete_cashier(id: int, request: Request, user = Depends(role_required([0])),):
     Connect.execute(Q.CashiersQueries.delete_cashier(id))
     return RedirectResponse(url='/admin/cashiers', status_code=303)

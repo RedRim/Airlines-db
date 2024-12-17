@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Form
+from fastapi import APIRouter, Depends, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.requests import Request
 
@@ -7,6 +7,7 @@ from dataclasses import asdict
 
 from database.connection import Connect
 from settings import templates
+from auth.token import role_required
 
 from admin.schemas import TicketOfficeEditSchema, TicketOfficeAddSchema
 from admin import queires as Q
@@ -17,7 +18,7 @@ from admin.query_config import TicketOfficeColumnsConfig
 router = APIRouter()
 
 @router.get('/add', response_class=HTMLResponse)
-def add__form(request: Request):
+def add__form(request: Request, user = Depends(role_required([0])),):
     fields = TicketOfficesFields(
         city = HTMLField(
             label='Город',
@@ -52,7 +53,7 @@ def add__form(request: Request):
 
 @router.post('/add', response_class=HTMLResponse)
 def add_ticket_offices(request: Request,
-          data: Annotated[TicketOfficeAddSchema, Form()]):
+          data: Annotated[TicketOfficeAddSchema, Form()], user = Depends(role_required([0])),):
     Connect.execute(Q.TicketOfficesQueries.add_ticket_office(
         data.city, data.street, data.house,
     ))
@@ -62,7 +63,7 @@ def add_ticket_offices(request: Request,
     return redirect_response
 
 @router.get('/', response_class=HTMLResponse)
-def ticket_offices(request: Request):
+def ticket_offices(request: Request, user = Depends(role_required([0])),):
     columns = [
         'ID',
         'Город',
@@ -82,7 +83,7 @@ def ticket_offices(request: Request):
 
 
 @router.get('/{id}', response_class=HTMLResponse)
-def ticket_offices_form(id:int, request: Request):
+def ticket_offices_form(id:int, request: Request, user = Depends(role_required([0])),):
     ticket_offices = Connect.fetchone(Q.TicketOfficesQueries.get_ticket_office(id=id))
 
     fields = TicketOfficesFields(
@@ -123,7 +124,7 @@ def ticket_offices_form(id:int, request: Request):
 
 @router.post('/{id}', response_class=HTMLResponse)
 def update_ticket_office(id: int, request: Request,
-          data: Annotated[TicketOfficeEditSchema, Form()]):
+          data: Annotated[TicketOfficeEditSchema, Form()], user = Depends(role_required([0])),):
     Connect.execute(Q.TicketOfficesQueries.update_ticket_office(
         id, data.city, data.street, data.house
     ))
@@ -134,7 +135,7 @@ def update_ticket_office(id: int, request: Request,
 
 
 @router.post('/delete/{id}', response_class=HTMLResponse)
-def delete_ticket_office(id: int, request: Request):
+def delete_ticket_office(id: int, request: Request, user = Depends(role_required([0])),):
     Connect.execute(Q.TicketOfficesQueries.delete_ticket_office(id))
     return RedirectResponse(url='/admin/ticket_offices', status_code=303)
 

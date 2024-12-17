@@ -121,6 +121,8 @@ def client_profile(request: Request,
         fields = ['Касса', "Имя", "Фамилия", "Отчество", "Почта"]
         zero_tickets_text = 'У вас нет проданных билетов'
         user_name = cashier[QC.CashierColumnsConfig.first_name.value]
+    elif user_role == 0:
+        return RedirectResponse(url='/admin')
     else:
         return templates.TemplateResponse("auth/login.html", {"request": request})
     tickets_rows = Connect.fetchall(TicketsQueries.get_user_tickets(user_id, user_role))

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Form
+from fastapi import APIRouter, Depends, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.requests import Request
 
@@ -7,6 +7,7 @@ from dataclasses import asdict
 
 from database.connection import Connect
 from settings import templates
+from auth.token import role_required
 
 from admin.schemas import AirlineEditSchema, AirlineAddSchema
 from admin import queires as Q
@@ -17,7 +18,7 @@ from admin.query_config import AirlineColumnsConfig
 router = APIRouter()
 
 @router.get('/add', response_class=HTMLResponse)
-def add_client_form(request: Request):
+def add_client_form(request: Request, user = Depends(role_required([0])),):
     fields = AirlinesFields(
         name = HTMLField(
             label='Название',
@@ -58,7 +59,7 @@ def add_client_form(request: Request):
 
 @router.post('/add', response_class=HTMLResponse)
 def add_client(request: Request,
-          data: Annotated[AirlineAddSchema, Form()]):
+          data: Annotated[AirlineAddSchema, Form()], user = Depends(role_required([0])),):
     Connect.execute(Q.AirlinesQueries.add_airline(
         data.name, data.city, data.street, data.house,
     ))
@@ -89,7 +90,7 @@ def airlines(request: Request):
 
 
 @router.get('/{id}', response_class=HTMLResponse)
-def airline_form(id:int, request: Request):
+def airline_form(id:int, request: Request, user = Depends(role_required([0])),):
     airline = Connect.fetchone(Q.AirlinesQueries.get_airline(id=id))
 
     fields = AirlinesFields(
@@ -137,7 +138,7 @@ def airline_form(id:int, request: Request):
 
 @router.post('/{id}', response_class=HTMLResponse)
 def update_airline(id: int, request: Request,
-          data: Annotated[AirlineEditSchema, Form()]):
+          data: Annotated[AirlineEditSchema, Form()], user = Depends(role_required([0])),):
     Connect.execute(Q.AirlinesQueries.update_airline(
         id, data.name, data.city, data.street, data.house
     ))
@@ -148,7 +149,7 @@ def update_airline(id: int, request: Request,
 
 
 @router.post('/delete/{id}', response_class=HTMLResponse)
-def delete_airline(id: int, request: Request):
+def delete_airline(id: int, request: Request, user = Depends(role_required([0])),):
     Connect.execute(Q.AirlinesQueries.delete_airline(id))
     return RedirectResponse(url='/admin/airlines', status_code=303)
 

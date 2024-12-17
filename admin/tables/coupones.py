@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Form, HTTPException
+from fastapi import APIRouter, Depends, Form, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.requests import Request
 
@@ -7,6 +7,7 @@ from dataclasses import asdict
 
 from database.connection import Connect
 from settings import templates
+from auth.token import role_required
 
 from admin.schemas import CouponeAddSchema, CouponeEditSchema
 from admin import queires as Q
@@ -17,7 +18,7 @@ from admin.query_config import CouponesColumnsConfig
 router = APIRouter()
 
 @router.get('/add', response_class=HTMLResponse)
-def add_coupone_form(request: Request):
+def add_coupone_form(request: Request, user = Depends(role_required([0])),):
     fields = CouponesFields(
         departure = HTMLField(
             label='Место отправления',
@@ -76,7 +77,7 @@ def add_coupone_form(request: Request):
 
 @router.post('/add', response_class=HTMLResponse)
 def add_coupone(request: Request,
-          data: Annotated[CouponeAddSchema, Form()]):
+          data: Annotated[CouponeAddSchema, Form()], user = Depends(role_required([0])),):
     Connect.execute(Q.CouponesQueries.add_coupone(
         data.departure, data.destination, data.fare, data.ticket, data.num, data.flight_time, data.duration
     ))
@@ -86,7 +87,7 @@ def add_coupone(request: Request,
     return redirect_response
 
 @router.get('/', response_class=HTMLResponse)
-def coupones(request: Request):
+def coupones(request: Request, user = Depends(role_required([0])),):
     columns = [
         'ID',
         'Место отправления',
@@ -110,7 +111,7 @@ def coupones(request: Request):
 
 
 @router.get('/{id}', response_class=HTMLResponse)
-def update_coupone_form(id:int, request: Request):
+def update_coupone_form(id:int, request: Request, user = Depends(role_required([0])),):
     coupone = Connect.fetchone(Q.CouponesQueries.get_coupone(id=id))
 
     fields = CouponesFields(
@@ -178,7 +179,7 @@ def update_coupone_form(id:int, request: Request):
 
 @router.post('/{id}', response_class=HTMLResponse)
 def update_coupone(id: int, request: Request,
-          data: Annotated[CouponeEditSchema, Form()]):
+          data: Annotated[CouponeEditSchema, Form()], user = Depends(role_required([0])),):
     Connect.execute(Q.CouponesQueries.update_coupone(
         id, data.departure, data.destination, data.fare, data.ticket, data.num, data.flight_time, data.duration
     ))
@@ -189,7 +190,7 @@ def update_coupone(id: int, request: Request,
 
 
 @router.post('/delete/{id}', response_class=HTMLResponse)
-def delete_coupone(id: int, request: Request):
+def delete_coupone(id: int, request: Request, user = Depends(role_required([0])),):
     Connect.execute(Q.CouponesQueries.delete_coupone(id))
     return RedirectResponse(url='/admin/coupones', status_code=303)
 

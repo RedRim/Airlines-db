@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Form, HTTPException
+from fastapi import APIRouter, Depends, Form, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.requests import Request
 
@@ -7,6 +7,7 @@ from dataclasses import asdict
 
 from database.connection import Connect
 from settings import templates
+from auth.token import role_required
 
 from admin.schemas import ClientEditSchema, ClientAddSchema
 from admin import queires as Q
@@ -17,7 +18,7 @@ from admin.query_config import ClientColumnsConfig
 router = APIRouter()
 
 @router.get('/add', response_class=HTMLResponse)
-def add_client_form(request: Request):
+def add_client_form(request: Request, user = Depends(role_required([0])),):
     fields = ClientFields(
         passport_number = HTMLField(
             label = 'Номер паспорта',
@@ -83,7 +84,7 @@ def add_client_form(request: Request):
 
 @router.post('/add', response_class=HTMLResponse)
 def add_client(request: Request,
-          data: Annotated[ClientAddSchema, Form()]):
+          data: Annotated[ClientAddSchema, Form()], user = Depends(role_required([0])),):
     data.email = data.email.strip()
     Connect.execute(Q.ClientsQueries.add_client(
         data.email, data.password, data.passport_number, data.passport_series, data.first_name, data.last_name, 
@@ -95,7 +96,7 @@ def add_client(request: Request,
     return redirect_response
 
 @router.get('/', response_class=HTMLResponse)
-def clients(request: Request):
+def clients(request: Request, user = Depends(role_required([0])),):
     columns = [
         'ID',
         'Номер паспорта',
@@ -119,7 +120,7 @@ def clients(request: Request):
 
 
 @router.get('/{id}', response_class=HTMLResponse)
-def client_form(id:int, request: Request):
+def client_form(id:int, request: Request, user = Depends(role_required([0])),):
     user = Connect.fetchone(Q.ClientsQueries.get_client(id=id))
 
     fields = ClientFields(
@@ -189,7 +190,7 @@ def client_form(id:int, request: Request):
 
 @router.post('/{id}', response_class=HTMLResponse)
 def update_client(id: int, request: Request,
-          data: Annotated[ClientEditSchema, Form()]):
+          data: Annotated[ClientEditSchema, Form()], user = Depends(role_required([0])),):
     data.email = data.email.strip()
     Connect.execute(Q.ClientsQueries.update_client(
         id, data.email, data.passport_number, data.passport_series, data.first_name, data.last_name, 
@@ -204,6 +205,6 @@ def update_client(id: int, request: Request,
 
 
 @router.post('/delete/{id}', response_class=HTMLResponse)
-def delete_client(id: int, request: Request):
+def delete_client(id: int, request: Request, user = Depends(role_required([0])),):
     Connect.execute(Q.ClientsQueries.delete_client(id))
     return RedirectResponse(url='/admin/clients', status_code=303)
