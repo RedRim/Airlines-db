@@ -2,7 +2,59 @@
 Запросы к бд
 """
 
-from datetime import datetime
+class TaskQueries:
+    @classmethod
+    def month_tickets(cls, month: int, airline_name: str):
+        return f"""
+        select distinct
+            t.id as ticket,
+            extract(month from st.sale_date) as month
+        from 
+            sale_ticket st
+        join tickets t
+            on t.id=st.ticket
+        join airlines a
+            on t.airline=a.id
+        where extract(month from st.sale_date) = {month}
+            and a.name='{airline_name}'
+        """
+    
+    @classmethod
+    def sales_volume(cls):
+        return f"""
+        select
+            sum(fare) as sum_fare,
+            a.name
+        from 
+            sale_ticket st
+        join tickets t
+            on t.id=st.ticket
+        join coupones c 
+            on c.ticket=t.id
+        join airlines a
+            on t.airline=a.id
+        group by a.id
+        """
+    
+    @classmethod
+    def clients_on_date(cls, date: str, airline: str):
+        return f"""
+        select distinct
+            concat(c.first_name, ' ', c.last_name), 
+            date(cp.flight_time) as date
+        from 
+            sale_ticket st
+        join tickets t
+            on t.id=st.ticket
+        join airlines a
+            on t.airline=a.id
+        join clients c
+            on c.id=st.client
+        join coupones cp
+            on cp.ticket=t.id
+        where date(cp.flight_time) = '{date}'
+            and a.name='{airline}'
+        """
 
 class AirlinesQueries:
     @classmethod

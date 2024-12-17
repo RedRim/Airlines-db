@@ -1,0 +1,38 @@
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+<div class="flex flex-col min-h-screen">
+  <header class="bg-gradient-to-r from-purple-500 to-red-600 shadow-lg">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <h1 class="text-3xl font-extrabold text-white tracking-tight">
+        Задание 3
+      </h1>
+      <nav class="space-x-6">
+        <a href="/profile" class="text-white hover:text-yellow-300 transition duration-200">Профиль</a>
+        <form action="/logout" method="post" class="inline">
+          <button type="submit" class="text-white hover:text-yellow-300 transition duration-200">
+              Выйти
+          </button>
+        </form>
+      </nav>
+    </div>
+  </header>
+
+  <div class="flex flex-col items-center justify-center flex-1 bg-gradient-to-br from-purple-400 via-pink-500 to-red-500">
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-8 w-full max-w-3xl">
+      <h2 class="text-xl font-bold text-gray-800 mb-4">Список клиентов компании на указанную дату</h2>
+      <form class="space-y-6" action="download/clients_on_date" method="post">
+        <div>
+          <label for="date" class="block text-gray-700">Дата</label>
+          <input type="date" id="date" name="date" placeholder="Введите месяц" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+        </div>
+        <div>
+          <label for="airline" class="block text-gray-700">Имя компании</label>
+          <input type="text" id="airline" name="airline" placeholder="Введите имя компании" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+        </div>
+        <div class="flex justify-center">
+          <button type="submit" class="w-1/5 py-2 px-4 bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-md hover:from-red-400 hover:to-orange-400">Скачать Excel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

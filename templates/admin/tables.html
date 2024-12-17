@@ -6,11 +6,16 @@
         <div class="space-y-4">
             {% for route in routes %}
                 <div class="flex justify-center">
-                    <a href="{{ route }}" class="bg-gradient-to-r from-red-500 to-orange-500 text-white text-center py-2 rounded w-1/2 hover:from-blue-400 hover:to-orange-400 transition duration-300">
+                    <a href="{{ route }}" class="bg-gradient-to-r from-red-500 to-orange-500 text-white text-center py-2 rounded w-full max-w-xs hover:from-blue-400 hover:to-orange-400 transition duration-300">
                         {{ routes[route] }}
                     </a>
                 </div>
             {% endfor %}
+            <div class="flex justify-center">
+                <a href="task/" class="bg-gradient-to-r from-red-500 to-orange-500 text-white text-center py-2 rounded w-full max-w-xs hover:from-blue-400 hover:to-orange-400 transition duration-300">
+                    Выгрызка данных
+                </a>
+            </div>
         </div>
     </div>
 </div>

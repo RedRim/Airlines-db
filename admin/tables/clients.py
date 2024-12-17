@@ -208,3 +208,4 @@ def update_client(id: int, request: Request,
 def delete_client(id: int, request: Request, user = Depends(role_required([0])),):
     Connect.execute(Q.ClientsQueries.delete_client(id))
     return RedirectResponse(url='/admin/clients', status_code=303)
+
