@@ -28,9 +28,10 @@ join coupones c
 join airlines a
 	on t.airline=a.id
 group by a.id
-select * from sale_ticket
 
-sele
+
+
+
 
 
 -- список клиентов компании на указанную дату

@@ -15,7 +15,8 @@ class TaskQueries:
             on t.id=st.ticket
         join airlines a
             on t.airline=a.id
-        where extract(month from st.sale_date) = {month}
+        where 
+			date_trunc('month', st.sale_date) = date_trunc('month', DATE '{month}')
             and a.name='{airline_name}'
         """
     
@@ -39,9 +40,9 @@ class TaskQueries:
     @classmethod
     def clients_on_date(cls, date: str, airline: str):
         return f"""
-        select distinct
+        sselect distinct
             concat(c.first_name, ' ', c.last_name), 
-            date(cp.flight_time) as date
+            date(st.sale_date) as date
         from 
             sale_ticket st
         join tickets t
@@ -52,7 +53,8 @@ class TaskQueries:
             on c.id=st.client
         join coupones cp
             on cp.ticket=t.id
-        where date(cp.flight_time) = '{date}'
+        where 
+			date_trunc('month', st.sale_date) = date_trunc('month', DATE '{date}')
             and a.name='{airline}'
         """
 

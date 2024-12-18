@@ -21,7 +21,7 @@ def all_tasks(request: Request, user = Depends(role_required([0])),):
     })
 
 class MonthAirline(BaseModel):
-    month: int = Form(None)
+    month: str = Form(None)
     airline: str = Form(None)
 
 @router.get("/month", response_class=HTMLResponse)
@@ -34,7 +34,11 @@ def month_tickets(request: Request, user = Depends(role_required([0])),):
 async def download_data(request: Request, data: Annotated[MonthAirline, Form()]):
     rows = Connect.fetchall(TaskQueries.month_tickets(month=data.month, airline_name=data.airline))
     df = pd.DataFrame.from_records(rows)
-    df.columns = ["ИД билета", "Номер месяца"]
+    print(TaskQueries.month_tickets(month=data.month, airline_name=data.airline))
+    try:
+        df.columns = ["ИД билета", "Номер месяца"]
+    except Exception: 
+        pass
     
     output = io.BytesIO()
     df.to_excel(output, index=False, sheet_name='Билеты')
