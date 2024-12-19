@@ -300,7 +300,13 @@ class SaleTicketQueries:
     @classmethod
     def get_all(cls):
         return f"""
-        SELECT * FROM sale_ticket
+        SELECT 
+            id,
+            ticket,
+            cashier,
+            client,
+            sale_date
+        FROM sale_ticket
         """ 
 
     @classmethod
